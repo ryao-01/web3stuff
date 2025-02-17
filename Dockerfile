@@ -1,6 +1,4 @@
-FROM debian:stable-slim 
-LABEL author="richard.yao@antithesis.com"
-LABEL description="Antithesis config image for kurtosis-cdk"
+FROM debian:stable-slim as builder
 
 # WARNING (DL3008): Pin versions in apt get install.
 # hadolint ignore=DL3008
@@ -12,11 +10,21 @@ RUN apt-get update \
   # Smart contract stuff (deploy before polymarket)
   && git clone --branch main https://github.com/ryao-01/proxy-factories.git \
   # Polymarket stuff
-  && git clone --branch main https://github.com/ryao-01/ctf-exchange.git \
-  # The package has other dependencies (blockscout, prometheus and grafana) but they shouldn't be used when testing the package with Antithesis.
-  && sed -i '$ a\\nreplace:\n    github.com/ryao-01/proxy-factories: ../proxy-factories\n    github.com/ryao-01/ctf-exchange: ../ctf-exchange\n'    /kurtosis-cdk/kurtosis.yml \
+  && git clone --branch main https://github.com/ryao-01/ctf-exchange.git 
+
+FROM debian:stable-slim
+LABEL author="richard.yao@antithesis.com"
+LABEL description="Antithesis config image for kurtosis-cdk"
+
+RUN apt-get update \
+  && apt-get --yes upgrade \
+  && apt-get install --yes --no-install-recommends libssl-dev ca-certificates nodejs npm \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* 
 
 COPY . /web3stuff
+COPY --from=builder /ctf-exchange /web3stuff/ctf-exchange 
+COPY --from=builder /proxy-factories /web3stuff/proxy-factories
 
 WORKDIR /web3stuff
 # Install web3.js and other npm dependencies 
