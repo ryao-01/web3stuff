@@ -1,6 +1,5 @@
-FROM debian:stable-slim
-LABEL author="richard.yao@antithesis.com"
-LABEL description="Antithesis config image for web3 stuff"
+FROM debian:stable-slim as builder
+
 # WARNING (DL3008): Pin versions in apt get install.
 # hadolint ignore=DL3008
 RUN apt-get update \
@@ -13,6 +12,10 @@ RUN apt-get update \
   # Polymarket stuff
   && git clone --branch main https://github.com/ryao-01/ctf-exchange.git 
 
+FROM debian:stable-slim
+LABEL author="richard.yao@antithesis.com"
+LABEL description="web3 stuff"
+
 RUN apt-get update \
   && apt-get --yes upgrade \
   && apt-get install --yes --no-install-recommends libssl-dev ca-certificates nodejs npm curl \
@@ -20,8 +23,8 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/* 
 
 COPY . /web3stuff
-COPY /ctf-exchange /web3stuff/ctf-exchange 
-COPY /proxy-factories /web3stuff/proxy-factories
+COPY --from=builder /ctf-exchange /web3stuff/ctf-exchange 
+COPY --from=builder /proxy-factories /web3stuff/proxy-factories
 
 WORKDIR /web3stuff
 # Install web3.js and other npm dependencies 
