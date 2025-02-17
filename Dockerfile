@@ -18,7 +18,7 @@ LABEL description="Antithesis config image for kurtosis-cdk"
 
 RUN apt-get update \
   && apt-get --yes upgrade \
-  && apt-get install --yes --no-install-recommends libssl-dev ca-certificates nodejs npm \
+  && apt-get install --yes --no-install-recommends libssl-dev ca-certificates nodejs npm curl \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* 
 
