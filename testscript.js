@@ -13,7 +13,7 @@ const account = web3.eth.accounts.privateKeyToAccount(privateKey);
 const fromAddress = account.address;
 
 const toAddress = fromAddress; 
-const valueWei = web3.utils.toHex('1000000'); 
+const valueWei = web3.utils.toHex('1000'); 
 let nonceHex;
 let chainIdHex;
 
