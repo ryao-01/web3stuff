@@ -8,7 +8,6 @@ ARG GO_VERSION=1.22.11
 #polycli ver
 ARG GIT_BRANCH="v0.1.73"
 
-COPY ./test /web3stuff
 WORKDIR /web3stuff
 
 #Install updates and grab repos
@@ -48,3 +47,5 @@ RUN curl --silent --location --proto "=https" https://foundry.paradigm.xyz | bas
 RUN npm install web3 
 # Optional verification steps 
 RUN node -e "try { require('web3'); console.log('web3.js installed successfully'); } catch (e) { console.error('web3.js installation failed', e); process.exit(1); }"
+
+COPY ./test /web3stuff

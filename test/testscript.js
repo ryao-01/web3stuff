@@ -1,6 +1,10 @@
 const { Web3 } = require("web3");
 
 const args = process.argv.slice(2);
+// args[0] -> rpc url
+// args[1] -> to address
+// args[2] -> amount
+
 const rpcUrl = args[0]; // devnet RPC URL ex -> "http://127.0.0.1:30371"
 if (!rpcUrl) {
   console.error("Error: Please provide an RPC URL as an argument.");
@@ -12,8 +16,8 @@ const privateKey = "0x12d7de8621a77640c9241b2595ba78ce443d05e94090365ab3bb5e19df
 const account = web3.eth.accounts.privateKeyToAccount(privateKey);
 const fromAddress = account.address;
 
-const toAddress = fromAddress; 
-const valueWei = web3.utils.toHex('1000'); 
+const toAddress = args[1] //fromAddress; 
+const valueWei = web3.utils.toHex(args[2]); //web3.utils.toHex('1000'); 
 let nonceHex;
 let chainIdHex;
 
