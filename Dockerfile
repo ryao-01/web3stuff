@@ -2,23 +2,47 @@ FROM debian:stable-slim
 LABEL author="richard.yao@antithesis.com"
 LABEL description="web3 stuff"
 
-COPY . /web3stuff
+# Set Go version
+ARG GO_VERSION=1.22.11
+
+#polycli ver
+ARG GIT_BRANCH="v0.1.73"
+
+COPY ./test /web3stuff
 WORKDIR /web3stuff
 
-RUN apt-get update \
-  && apt-get --yes upgrade \
-  && apt-get install --yes --no-install-recommends libssl-dev ca-certificates jq git curl make grep nodejs npm \
+#Install updates and grab repos
+RUN apt-get update -y
+
+RUN  apt-get --yes upgrade \
+  && apt-get install --yes --no-install-recommends libssl-dev ca-certificates jq bc git curl wget gcc libc-dev make grep nodejs npm protobuf-compiler \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
-  # Pull and install Foundry
-  && curl --silent --location --proto "=https" https://foundry.paradigm.xyz | bash \
-  && /root/.foundry/bin/foundryup \
-  && cp /root/.foundry/bin/* /usr/local/bin \
   # Smart contract stuff (deploy before polymarket)
   && git clone --branch main https://github.com/ryao-01/proxy-factories.git \
   # Polymarket stuff
   && git clone --branch main https://github.com/ryao-01/ctf-exchange.git 
-  
+
+# Install Go
+RUN wget https://golang.org/dl/go${GO_VERSION}.linux-amd64.tar.gz 
+RUN tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz 
+ENV PATH=$PATH:/usr/local/go/bin
+# # Verify Go installation
+RUN go version 
+
+# Install Polycli 
+RUN git clone https://github.com/0xPolygon/polygon-cli.git && cd polygon-cli && git checkout ${GIT_BRANCH} 
+WORKDIR polygon-cli
+RUN go clean -modcache
+RUN go mod tidy
+RUN export PATH="$HOME/go/bin:$PATH"
+RUN make install
+
+# Pull and install Foundry
+RUN curl --silent --location --proto "=https" https://foundry.paradigm.xyz | bash \
+  && /root/.foundry/bin/foundryup \
+  && cp /root/.foundry/bin/* /usr/local/bin 
+
 # Install web3.js and other npm dependencies 
 RUN npm install web3 
 # Optional verification steps 
