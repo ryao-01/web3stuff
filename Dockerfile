@@ -38,6 +38,7 @@ RUN go mod tidy
 RUN export PATH="$HOME/go/bin:$PATH"
 RUN make install
 
+WORKDIR /web3stuff
 # Pull and install Foundry
 RUN curl --silent --location --proto "=https" https://foundry.paradigm.xyz | bash \
   && /root/.foundry/bin/foundryup \
