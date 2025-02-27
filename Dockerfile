@@ -48,4 +48,8 @@ RUN npm install web3
 # Optional verification steps 
 RUN node -e "try { require('web3'); console.log('web3.js installed successfully'); } catch (e) { console.error('web3.js installation failed', e); process.exit(1); }"
 
+# Install OpenZeppelin Contracts using Foundry
+RUN forge install OpenZeppelin/openzeppelin-contracts --no-git
+
 COPY ./test /web3stuff
+COPY /src /web3stuff/src 
