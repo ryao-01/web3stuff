@@ -13,7 +13,7 @@ WORKDIR /web3stuff
 #Install updates and grab repos
 RUN apt-get update -y
 
-RUN  apt-get --yes upgrade \
+RUN apt-get --yes upgrade \
   && apt-get install --yes --no-install-recommends libssl-dev ca-certificates jq bc git curl wget gcc libc-dev make grep nodejs npm protobuf-compiler \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
@@ -50,6 +50,7 @@ RUN node -e "try { require('web3'); console.log('web3.js installed successfully'
 
 # Install OpenZeppelin Contracts using Foundry
 RUN forge install OpenZeppelin/openzeppelin-contracts --no-git
+RUN npm install --global solc@0.8.20
 
 COPY ./test /web3stuff
 COPY /src /web3stuff/src 
