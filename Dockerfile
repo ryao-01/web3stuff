@@ -52,5 +52,4 @@ RUN node -e "try { require('web3'); console.log('web3.js installed successfully'
 RUN forge install OpenZeppelin/openzeppelin-contracts --no-git
 RUN npm install --global solc@0.8.20
 
-COPY ./test /web3stuff
 COPY /src /web3stuff/src 
