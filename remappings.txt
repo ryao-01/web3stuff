@@ -1,4 +1,5 @@
 @gnosis.pm/safe-contracts/=lib/safe-contracts/
+@gnosis.pm/conditional-tokens-contracts/=lib/conditional-tokens-contracts/
 openzeppelin-contracts/=lib/openzeppelin-contracts/
 @openzeppelin/=lib/openzeppelin-contracts/
 common/=ctf-exchange/src/common/
