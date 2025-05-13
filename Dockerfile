@@ -54,10 +54,10 @@ RUN node -e "try { require('web3'); console.log('web3.js installed successfully'
 RUN forge install OpenZeppelin/openzeppelin-contracts@v4.7.3 --no-git
 # Install Polymarket dependencies
 RUN forge install gnosis/safe-contracts@v1.3.0 --no-git
-#RUN forge install gnosis/conditional-tokens-contracts --no-git
+RUN forge install transmissions11/solmate --no-git
 
 # Install solc 0.8.28 (native binary)
-RUN curl -L https://github.com/ethereum/solidity/releases/download/v0.8.28/solc-static-linux -o /usr/local/bin/solc && \
+RUN curl -L https://github.com/ethereum/solidity/releases/download/v0.8.15/solc-static-linux -o /usr/local/bin/solc && \
     chmod +x /usr/local/bin/solc && \
     solc --version
 
