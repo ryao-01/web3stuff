@@ -1,0 +1,8 @@
+@gnosis.pm/safe-contracts/=/web3stuff/lib/safe-contracts/
+safe-contracts/=/web3stuff/lib/safe-contracts/
+openzeppelin-contracts/=/web3stuff/lib/openzeppelin-contracts/
+@openzeppelin/contracts/=/web3stuff/lib/openzeppelin-contracts/contracts/
+conditional-tokens-contracts/=/web3stuff/lib/conditional-tokens-contracts/contracts/
+erc4626-tests/=/web3stuff/lib/openzeppelin-contracts/lib/erc4626-tests/
+forge-std/=/web3stuff/lib/forge-std/src/
+halmos-cheatcodes/=/web3stuff/lib/openzeppelin-contracts/lib/halmos-cheatcodes/src/

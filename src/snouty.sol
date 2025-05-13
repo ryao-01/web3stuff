@@ -4,8 +4,8 @@ pragma solidity ^0.8.20;
 import "openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
 import "openzeppelin-contracts/contracts/access/Ownable.sol";
 
-contract Snouty is ERC20, Ownable {
-    constructor(uint256 initialSupply) ERC20("Snouty", "SNTY") {
+contract SnoutyCoin is ERC20, Ownable {
+    constructor(uint256 initialSupply) ERC20("Snouty", "SNTY") Ownable(msg.sender) {
         _mint(msg.sender, initialSupply);
     }
 

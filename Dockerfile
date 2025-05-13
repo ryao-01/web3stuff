@@ -43,6 +43,8 @@ RUN curl --silent --location --proto "=https" https://foundry.paradigm.xyz | bas
   && /root/.foundry/bin/foundryup \
   && cp /root/.foundry/bin/* /usr/local/bin 
 
+RUN forge init --no-git --force 
+
 # Install web3.js and other npm dependencies 
 RUN npm install web3 
 # Optional verification steps 
@@ -50,6 +52,17 @@ RUN node -e "try { require('web3'); console.log('web3.js installed successfully'
 
 # Install OpenZeppelin Contracts using Foundry
 RUN forge install OpenZeppelin/openzeppelin-contracts --no-git
-RUN npm install --global solc@0.8.20
+# Install Polymarket dependencies
+RUN forge install gnosis/safe-contracts --no-git
+#RUN forge install gnosis/conditional-tokens-contracts --no-git
+
+# Install solc 0.8.28 (native binary)
+RUN curl -L https://github.com/ethereum/solidity/releases/download/v0.8.28/solc-static-linux -o /usr/local/bin/solc && \
+    chmod +x /usr/local/bin/solc && \
+    solc --version
+
+# Set up foundry.toml to use native solc
+RUN sed -i '/^\[profile.default\]/a auto_detect_solc = false\nsolc = "/usr/local/bin/solc"' foundry.toml
 
 COPY /src /web3stuff/src 
+COPY remappings.txt /web3stuff/
