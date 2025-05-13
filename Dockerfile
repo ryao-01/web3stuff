@@ -53,7 +53,7 @@ RUN node -e "try { require('web3'); console.log('web3.js installed successfully'
 # Install OpenZeppelin Contracts using Foundry
 RUN forge install OpenZeppelin/openzeppelin-contracts --no-git
 # Install Polymarket dependencies
-RUN forge install gnosis/safe-contracts --no-git
+RUN forge install gnosis/safe-contracts@v1.3.0 --no-git
 #RUN forge install gnosis/conditional-tokens-contracts --no-git
 
 # Install solc 0.8.28 (native binary)
@@ -66,3 +66,7 @@ RUN sed -i '/^\[profile.default\]/a auto_detect_solc = false\nsolc = "/usr/local
 
 COPY /src /web3stuff/src 
 COPY remappings.txt /web3stuff/
+
+# run ls /web3stuff/lib/safe-contracts/contracts/proxies/GnosisSafeProxy.sol
+# run ls /web3stuff/lib/safe-contracts/contracts/GnosisSafe.sol
+# RUN ls /web3stuff/lib/openzeppelin-contracts/contracts/utils/cryptography/ECDSA.sol
