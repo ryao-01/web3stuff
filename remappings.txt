@@ -1,6 +1,7 @@
 @gnosis.pm/safe-contracts/=lib/safe-contracts/
 @gnosis.pm/conditional-tokens-contracts/=lib/conditional-tokens-contracts/
 openzeppelin-contracts/=lib/openzeppelin-contracts/
+openzeppelin-solidity/=lib/openzeppelin-solidity/
 @openzeppelin/=lib/openzeppelin-contracts/
 common/=ctf-exchange/src/common/
 solmate/=lib/solmate/src/

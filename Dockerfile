@@ -50,20 +50,22 @@ RUN npm install web3
 # Optional verification steps 
 RUN node -e "try { require('web3'); console.log('web3.js installed successfully'); } catch (e) { console.error('web3.js installation failed', e); process.exit(1); }"
 
-# Install OpenZeppelin Contracts using Foundry
+# Install Polymarket dependencies using forge (foundry)
 RUN forge install OpenZeppelin/openzeppelin-contracts@v4.7.3 --no-git
-# Install Polymarket dependencies
+RUN forge install OpenZeppelin/openzeppelin-solidity --no-git
 RUN forge install gnosis/safe-contracts@v1.3.0 --no-git
 RUN forge install transmissions11/solmate --no-git
 RUN forge install gnosis/conditional-tokens-contracts --no-git
 
-# Install solc 0.8.28 (native binary)
-RUN curl -L https://github.com/ethereum/solidity/releases/download/v0.8.15/solc-static-linux -o /usr/local/bin/solc && \
-    chmod +x /usr/local/bin/solc && \
-    solc --version
+# Install solc native binaries
+RUN mkdir -p ~/.foundry/solc
+RUN curl -L https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.5.1+commit.c8a2cb62 -o ~/.foundry/solc/solc-0.5.1
+RUN curl -L https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.8.15+commit.e14f2714 -o ~/.foundry/solc/solc-0.8.15
+COPY solc-static-linux-0.8.28 ~/.foundry/solc/solc-0.8.28
+RUN chmod +x ~/.foundry/solc/solc-*
 
 # Set up foundry.toml to use native solc
-RUN sed -i '/^\[profile.default\]/a auto_detect_solc = false\nsolc = "/usr/local/bin/solc"' foundry.toml
+RUN sed -i '/^\[profile.default\]/a auto_detect_solc = true' foundry.toml
 
 COPY /src /web3stuff/src 
 COPY remappings.txt /web3stuff/
